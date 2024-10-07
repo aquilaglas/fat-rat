@@ -19,7 +19,7 @@ export class CardsService {
         return this.cardsRepository.findOneBy({ id });
     }
 
-    async create(): Promise<Card[]> {
+    async createAll(): Promise<Card[]> {
         let cards: Card[] = [];
 
         for (const card of cardsData) {
@@ -40,5 +40,11 @@ export class CardsService {
 
     async remove(id: string): Promise<void> {
         await this.cardsRepository.delete(id);
+    }
+
+    async removeAll(): Promise<void> {
+        for (const card of await this.findAll()) {
+            await this.remove(card.id);
+        }
     }
 }

@@ -18,7 +18,7 @@ export class CardsController {
 
     @Post()
     create() {
-        return this.cardsService.create();
+        return this.cardsService.createAll();
     }
 
     @Put(':id')
@@ -29,5 +29,10 @@ export class CardsController {
     @Delete(':id')
     remove(@Param('id') id: string) {
         return this.cardsService.remove(id);
+    }
+
+    @Delete(':id')
+    removeAll() {
+        return this.cardsService.removeAll();
     }
 }
