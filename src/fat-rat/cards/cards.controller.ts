@@ -31,7 +31,7 @@ export class CardsController {
         return this.cardsService.remove(id);
     }
 
-    @Delete(':id')
+    @Delete()
     removeAll() {
         return this.cardsService.removeAll();
     }
