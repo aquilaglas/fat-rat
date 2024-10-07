@@ -8,6 +8,7 @@ export enum CardTypesEnum {
     EIGHT = '8',
     NINE = '9',
     TEN = '10',
+    ACE = 'A',
     JACK = 'Jack',
     KING = 'King',
     QUEEN = 'Queen',

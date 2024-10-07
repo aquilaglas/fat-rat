@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Card } from '../../common/entities/card.entity';
-import {CardCreateDto} from "../../common/dto/card-create.dto";
+import {cardsData} from "../../common/data/cards.data";
 
 @Injectable()
 export class CardsService {
@@ -19,11 +19,16 @@ export class CardsService {
         return this.cardsRepository.findOneBy({ id });
     }
 
-    create(card: CardCreateDto): Promise<Card> {
-        const newCard: Card = this.cardsRepository.create({
-            ...card,
-        });
-        return this.cardsRepository.save(newCard);
+    async create(): Promise<Card[]> {
+        let cards: Card[] = [];
+
+        for (const card of cardsData) {
+            const newCard: Card = this.cardsRepository.create({
+                ...card,
+            });
+            cards.push(await this.cardsRepository.save(newCard));
+        }
+        return this.cardsRepository.save(cards);
     }
 
     async update(id: string, card: Partial<Card>): Promise<Card> {
