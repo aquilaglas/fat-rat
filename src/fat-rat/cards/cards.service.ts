@@ -23,10 +23,12 @@ export class CardsService {
         let cards: Card[] = [];
 
         for (const card of cardsData) {
-            const newCard: Card = this.cardsRepository.create({
-                ...card,
-            });
-            cards.push(await this.cardsRepository.save(newCard));
+            if (!await this.cardsRepository.findOneBy({symbol: card.symbol, type: card.type})) {
+                const newCard: Card = this.cardsRepository.create({
+                    ...card,
+                });
+                cards.push(await this.cardsRepository.save(newCard));
+            }
         }
         return this.cardsRepository.save(cards);
     }
