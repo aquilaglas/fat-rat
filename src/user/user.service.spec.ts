@@ -3,7 +3,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UserService } from './user.service';
-import { UserEntity } from '../common/entities/user.entity';
+import { User } from '../common/entities/user.entity';
 import { UserRegisterDto } from '../common/dto/user-register.dto';
 import { UserLoginDto } from '../common/dto/user-login.dto';
 import { ConflictException, NotFoundException } from '@nestjs/common';
@@ -11,7 +11,7 @@ import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
 describe('UserService', () => {
   let userService: UserService;
-  let userRepositoryMock: jest.Mocked<Repository<UserEntity>>;
+  let userRepositoryMock: jest.Mocked<Repository<User>>;
   let jwtServiceMock: jest.Mocked<JwtService>;
 
   beforeEach(async () => {
@@ -19,7 +19,7 @@ describe('UserService', () => {
       providers: [
         UserService,
         {
-          provide: getRepositoryToken(UserEntity),
+          provide: getRepositoryToken(User),
           useValue: {
             create: jest.fn(),
             save: jest.fn(),
@@ -39,7 +39,7 @@ describe('UserService', () => {
     }).compile();
 
     userService = module.get<UserService>(UserService);
-    userRepositoryMock = module.get(getRepositoryToken(UserEntity));
+    userRepositoryMock = module.get(getRepositoryToken(User));
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     jwtServiceMock = module.get<JwtService>(JwtService);
@@ -113,16 +113,17 @@ describe('UserService', () => {
         password: 'testPassword',
       };
 
-      const userEntity: UserEntity = {
-        reviews: [],
-        id: '1',
-        cart: null,
-        username: 'testUser',
-        password: 'testPassword',
-        firstname: 'John',
-        lastname: 'Doe',
-        email: 'test@example.com',
-        salt: 'mockedSalt'
+      const userEntity: User = {
+        age: 0,
+        bestScore: 0,
+        email: "",
+        name: "",
+        password: "",
+        player: undefined,
+        role: undefined,
+        salt: "",
+        username: "",
+        id: '1'
       };
 
       jest
@@ -162,16 +163,17 @@ describe('UserService', () => {
         password: 'incorrectPassword',
       };
 
-      const userEntity: UserEntity = {
-        reviews: [],
-        id: '1',
-        cart: null,
-        username: 'testUser',
-        password: 'hashedPassword',
-        firstname: 'John',
-        lastname: 'Doe',
-        email: 'test@example.com',
-        salt: 'mockedSalt'
+      const userEntity: User = {
+        age: 0,
+        bestScore: 0,
+        email: "",
+        name: "",
+        password: "",
+        player: undefined,
+        role: undefined,
+        salt: "",
+        username: "",
+        id: '1'
       };
 
       jest
@@ -191,16 +193,17 @@ describe('UserService', () => {
     it('should get user by ID', async () => {
       const userId = '1';
 
-      const userEntity: UserEntity = {
-        reviews: [],
-        id: userId,
-        cart: null,
-        username: 'testUser',
-        password: 'hashedPassword',
-        firstname: 'John',
-        lastname: 'Doe',
-        email: 'test@example.com',
-        salt: 'mockedSalt'
+      const userEntity: User = {
+        age: 0,
+        bestScore: 0,
+        email: "",
+        name: "",
+        password: "",
+        player: undefined,
+        role: undefined,
+        salt: "",
+        username: "",
+        id: userId
       };
 
       userRepositoryMock.findOne.mockImplementation(() =>
@@ -231,48 +234,49 @@ describe('UserService', () => {
     it('should update user', async () => {
       const userId = '1';
 
-      const userEntity: UserEntity = {
-        reviews: [],
-        id: userId,
-        cart: null,
-        username: 'testUser',
-        password: 'hashedPassword',
-        firstname: null,
-        lastname: null,
-        email: 'test@example.com',
-        salt: null
+      const userEntity: User = {
+        age: 0,
+        bestScore: 0,
+        email: "",
+        name: "",
+        password: "",
+        player: undefined,
+        role: undefined,
+        salt: "",
+        username: "",
+        id: userId
       };
 
-      const newUserEntity: Partial<UserEntity> = {
-        firstname: 'John',
-        lastname: 'Doe'
+      const newUser: Partial<User> = {
+        age: 20,
+        username: 'Doe'
       };
 
-      const updateUserEntity: UserEntity = {
+      const updateUser: User = {
         ...userEntity,
-        ...newUserEntity
+        ...newUser
       };
 
       userRepositoryMock.findOneBy.mockImplementation(() =>
-        Promise.resolve(updateUserEntity),
+        Promise.resolve(updateUser),
       );
 
       userRepositoryMock.update.mockImplementation(() =>
         Promise.resolve(new UpdateResult())
       );
 
-      const result = await userService.update(userId, newUserEntity);
+      const result = await userService.update(userId, newUser);
 
-      delete updateUserEntity.password;
-      delete updateUserEntity.salt;
+      delete updateUser.password;
+      delete updateUser.salt;
 
-      expect(result).toEqual(updateUserEntity);
+      expect(result).toEqual(updateUser);
       expect(userRepositoryMock.findOneBy).toHaveBeenCalledWith({
         id: userId,
       });
       expect(userRepositoryMock.update).toHaveBeenCalledWith(
         userId,
-        updateUserEntity
+        updateUser
       );
     });
   });
