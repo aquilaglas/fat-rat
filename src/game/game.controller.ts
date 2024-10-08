@@ -1,4 +1,4 @@
 import { Controller } from '@nestjs/common';
 
 @Controller('fat-rat')
-export class FatRatController {}
+export class GameController {}

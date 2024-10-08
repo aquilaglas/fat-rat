@@ -3,8 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { FatRatModule } from './fat-rat/fat-rat.module';
-import {CardsModule} from "./fat-rat/cards/cards.module";
+import { GameModule } from './game/game.module';
+import { CardsModule } from "./cards/cards.module";
+import { UserModule } from "./user/user.module";
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import {CardsModule} from "./fat-rat/cards/cards.module";
       autoLoadEntities: true,
       synchronize: true,
     }),
-    FatRatModule,
+    UserModule,
+    GameModule,
     CardsModule,
   ],
   controllers: [AppController],
