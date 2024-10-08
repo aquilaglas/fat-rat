@@ -1,9 +1,8 @@
 import {
     Column,
-    Entity, OneToOne,
+    Entity,
     PrimaryGeneratedColumn,
 } from 'typeorm';
-import {Player} from "./player.entity";
 import {UserRoleEnum} from "../enums/user-role.enum";
 
 @Entity()
@@ -34,7 +33,4 @@ export class User {
 
     @Column({nullable: true})
     bestScore: number;
-
-    @OneToOne(() => Player, (player) => player.user)
-    player: Player;
 }

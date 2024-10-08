@@ -20,7 +20,7 @@ export class Player {
     @Column({default: []})
     cards: Card[];
 
-    @OneToOne(() => User, (user) => user.player)
+    @OneToOne(() => User, {eager: true})
     @JoinColumn()
     user: User;
 }
