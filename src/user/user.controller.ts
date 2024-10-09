@@ -28,11 +28,11 @@ export class UserController {
   }
 
   @Post('login')
-  async login(
+  login(
       @Body() userData: UserLoginDto,
   ): Promise<{ access_token: string; userId: string }> {
-    this.logger.log('Received POST request on user/login');
-    return await this.userService.login(userData);
+    this.logger.log('Received POST request on user/login' + JSON.stringify(userData));
+    return this.userService.login(userData);
   }
 
   @Get(':id')
