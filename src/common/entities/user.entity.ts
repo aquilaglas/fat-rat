@@ -29,6 +29,9 @@ export class User {
     username: string;
 
     @Column({nullable: true})
+    picture: string;
+
+    @Column({nullable: true})
     role: UserRoleEnum;
 
     @Column({nullable: true})
