@@ -10,7 +10,7 @@ export class User {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column({length: 50})
+    @Column({nullable: true, length: 50})
     name: string;
 
     @Column({unique: true})
@@ -25,7 +25,7 @@ export class User {
     @Column({nullable: true})
     age: number;
 
-    @Column({nullable: true, length: 50})
+    @Column({unique: true, length: 50})
     username: string;
 
     @Column({nullable: true})
