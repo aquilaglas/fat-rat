@@ -11,7 +11,7 @@ export class AppController {
   }
 
   @Post()
-  post(@Body() data: {name: string},): string {
+  post(@Body() data: {name: string}): string {
     return data.name;
   }
 }
